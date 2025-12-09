@@ -1,5 +1,5 @@
 import pdfplumber
-from PatientRecord import PatientRecord
+from app.PatientRecord import PatientRecord
 
 class PDFExtractor:
     """
