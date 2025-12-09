@@ -1,20 +1,20 @@
-from datetime import datetime, date, timedelta
+from datetime import datetime, timedelta
 
 
 class Validator:
-    '''
+    """
     Validates PatientRecord objects and their attributes
 
-    '''
+    """
     def validate(self, record):
-        '''
+        """
         Validates an entire PatientRecord
 
         :param record: A PatientRecord object
         :return: (valid, errors):
             valid is True if the record passes all the checks
             errors is a list of strings that describes the errors with the record
-        '''
+        """
         errors = []
 
         errors.extend(self.validateHealthCardNumber(record.healthCardNumber))
@@ -26,7 +26,7 @@ class Validator:
 
 
     def validateHealthCardNumber(self, healthCardNumber):
-        '''
+        """
         Validate health card number and return error message
 
         Rules:
@@ -38,7 +38,7 @@ class Validator:
         :param healthCardNumber: The health card number to validate
 
         :return: List[str] List of errors. Empty list if valid
-        '''
+        """
 
         errors = []
 
@@ -63,12 +63,12 @@ class Validator:
         return errors
 
     def luhnCheck(self, number):
-        '''
+        """
         Validates the number with the Luhn algorithm
 
         :param number: The number to validate
         :return: If the number passes the Luhn check
-        '''
+        """
         # Convert all digits individually just for safety
         digits = [int(i) for i in number]
 
@@ -95,7 +95,7 @@ class Validator:
 
 
     def validateVersionCode(self, versionCode):
-        '''
+        """
         Validate the health card version code
 
         Rules:
@@ -104,7 +104,7 @@ class Validator:
 
         :param versionCode: The version code to validate
         :return: If the health card version code is valid
-        '''
+        """
         errors = []
 
         # Checks if the version code is missing
@@ -123,7 +123,7 @@ class Validator:
         return errors
 
     def validateDateOfBirth(self, dateOfBirth):
-        '''
+        """
         Validate the date of birth
 
         Rules:
@@ -134,7 +134,7 @@ class Validator:
 
         :param dateOfBirth: The date of birth to validate
         :return: If the date of birth is valid
-        '''
+        """
         errors = []
 
         # Checks if the dateOfBirth is missing
@@ -164,13 +164,13 @@ class Validator:
         return errors
 
     def calculateAge(self, dateToday, dateOfBirth):
-        '''
+        """
         Calculates an age based on the date today and the date of birth
 
         :param dateToday: The current date today
         :param dateOfBirth: The date of birth
         :return: The age
-        '''
+        """
         age = dateToday.year - dateOfBirth.year
 
         # Checking if they haven't had their birthday yet
@@ -181,7 +181,7 @@ class Validator:
 
 
     def validateServiceDate(self, serviceDate, dateOfBirth):
-        '''
+        """
         Validate the date of service
 
         Rules:
@@ -193,7 +193,7 @@ class Validator:
         :param serviceDate: The date of service to validate
         :param dateOfBirth: The date of birth
         :return: If the date of service is valid
-        '''
+        """
         errors = []
 
         # Checks if serviceDate is missing
