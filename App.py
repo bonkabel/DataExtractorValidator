@@ -65,6 +65,17 @@ if __name__ == "__main__":
     import sys
     import os
 
+    # This allows for debugging properly
+    if "PYCHARM_HOSTED" in os.environ:
+        directory = os.path.dirname(os.path.abspath(__file__))
+        data = os.path.join(directory, "data\\test sheet.pdf")
+        output = os.path.join(directory, "output")
+        sys.argv = [
+            "app.py",
+            f"{data}",
+            f"{output}"
+        ]
+
     # Expects two arguments
     if len(sys.argv) != 3:
         print("Usage: python app.py <input.pdf> <output directory>")
@@ -79,7 +90,11 @@ if __name__ == "__main__":
         os.makedirs(outputDirectory)
 
     # Create and run the application
-    app = App(inputPDF, outputDirectory)
-    app.run()
+    try:
+        app = App(inputPDF, outputDirectory)
+        app.run()
+    except Exception as e:
+        print(str(e))
+        exit(1)
 
     print("Done.")
