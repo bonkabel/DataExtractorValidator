@@ -35,6 +35,9 @@ class Validator:
             - Must be exactly 10 digits
             - Must pass Luhn check
 
+        Assumptions:
+            Doesn't validate patient id
+
         :param healthCardNumber: The health card number to validate
 
         :return: List[str] List of errors. Empty list if valid
