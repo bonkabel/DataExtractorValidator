@@ -1,6 +1,6 @@
 
 class RecordProcessor:
-    '''
+    """
 
     RecordProcessor coordinates the processing of the patient records
 
@@ -14,7 +14,7 @@ class RecordProcessor:
         validator: Responsible for validating the records
         validRecords: A list of the records that pass validation
         invalidRecords: A list of tuples, containing the record and its associated error
-    '''
+    """
     def __init__(self, extractor, validator):
         self.extractor = extractor
         self.validator = validator

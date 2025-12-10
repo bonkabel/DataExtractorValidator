@@ -1,18 +1,18 @@
 import sqlite3
 
 class SQLiteWriter:
-    '''
+    """
     Handles saving valid patient records into a SQLite database.
-    '''
+    """
 
     def __init__(self, dbPath):
         self.dbPath = dbPath
         self.createTable()
 
     def createTable(self):
-        '''
+        """
         Creates the table if it doesn't exist
-        '''
+        """
 
         connection = sqlite3.connect(self.dbPath)
         cursor = connection.cursor()
@@ -31,12 +31,12 @@ class SQLiteWriter:
         connection.close()
 
     def saveRecord(self, record):
-        '''
+        """
         Inserts or updates a valid PatientRecord
         Expects a record object
 
         :param record: The PatientRecord object
-        '''
+        """
         connection = sqlite3.connect(self.dbPath)
         cursor = connection.cursor()
 
@@ -56,10 +56,10 @@ class SQLiteWriter:
         connection.close()
 
     def insertRecords(self, records):
-        '''
+        """
         Insert records into the database
         :param records: The records to insert into the database
-        '''
+        """
         if not records:
             return
 
@@ -85,10 +85,10 @@ class SQLiteWriter:
         connection.close()
 
     def fetchAll(self):
-        '''
+        """
         Returns all records from the database
         :return: The records from the database
-        '''
+        """
         connection = sqlite3.connect(self.dbPath)
         cursor = connection.cursor()
 
