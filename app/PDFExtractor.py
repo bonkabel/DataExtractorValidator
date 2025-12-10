@@ -1,4 +1,7 @@
 import pdfplumber
+from pdfminer.pdfparser import PDFSyntaxError
+from pdfplumber.utils.exceptions import PdfminerException
+
 from app.PatientRecord import PatientRecord
 
 class PDFExtractor:
@@ -23,25 +26,63 @@ class PDFExtractor:
 
         Notes:
             Assumes the first row of the PDF is the column headings
+            Assumes the tables columns are in the order patient id, health card numbers, version code, date of birth, service date
 
         :return: A list of PatientRecord objects. Each row of the PDF table after the header is converted into a PatientRecord object
         """
 
         # return a list of patient records
         records = []
+        foundTable = False
 
-        with pdfplumber.open(self.filePath) as pdf:
-            for page in pdf.pages:
-                table = page.extract_table()
+        try:
+            with pdfplumber.open(self.filePath) as pdf:
+                for page in pdf.pages:
+                    table = page.extract_table()
 
-                # Makes sure there is a table
-                if not table:
-                    continue
+                    # Makes sure there is a table
+                    if not table:
+                        continue
+                    else:
+                        foundTable = True
 
-                # Go through the rows of the table
-                # Assuming the first row is the column names
-                for row in table[1:]:
-                    record = PatientRecord(row[0], row[1], row[2], row[3], row[4])
-                    records.append(record)
+                    # Go through the rows of the table
+                    # Assuming the first row is the column names
+
+                    for row in table[1:]:
+                        if row is None or len(row) != 5:
+                            raise Exception(
+                                f"Incomplete record found in '{self.filePath}' on page {page.page_number}\n"
+                                f"Ensure that all rows are present and have 5 fields"
+                            )
+                        record = PatientRecord(row[0], row[1], row[2], row[3], row[4])
+                        records.append(record)
+
+            # Raise an exception if there's no table present
+            if not foundTable:
+                raise Exception(
+                    f"The file '{self.filePath}' does not contain any readable tables\n"
+                    f"Ensure the PDF has a table present")
+        # Raise an exception if the file isn't found
+        except FileNotFoundError as e:
+            raise Exception(
+                f"PDF file '{self.filePath}' was not found\n"
+                f"Details: {str(e)}")
+        # Raise an error if there is an IO exception
+        except IOError as e:
+            raise Exception(
+                f"PDF file '{self.filePath}' could not be opened\n"
+                f"Details: {str(e)}")
+        # Raise an error if there is a issue with the PDF
+        except (PDFSyntaxError, PdfminerException) as e:
+            raise Exception(
+                f"The file '{self.filePath}' is not a valid PDF file or has been corrupted\n"
+                f"Details: {str(e)}")
+        except Exception as e:
+            raise Exception(
+                f"An unexpected error has occurred while attempting to process '{self.filePath}'\n"
+                f"Details: {str(e)}"
+            )
+
 
         return records
