@@ -1,5 +1,5 @@
 class PatientRecord:
-    '''
+    """
     Represents a single patient record
 
     Attributes:
@@ -8,7 +8,7 @@ class PatientRecord:
         versionCode: Two letter (uppercase) health card version code
         dateOfBirth: Patient date of birth in YYYY-MM-DD format
         serviceDate: Date the service was provided in YYYY-MM-DD format
-    '''
+    """
     def __init__(self, patientId, healthCardNumber, versionCode, dateOfBirth, serviceDate):
         self.patientId = patientId
         self.healthCardNumber = healthCardNumber
