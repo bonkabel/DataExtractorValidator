@@ -159,7 +159,7 @@ class Validator:
         today = datetime.today().date()
         age = self.calculateAge(today, parsedDateOfBirth)
 
-        if age < 0:
+        if parsedDateOfBirth > today:
             errors.append(ValidationError(Fields.DATE_OF_BIRTH, Rules.RANGE, "The patient must be at least 0 years old"))
             return errors
 
