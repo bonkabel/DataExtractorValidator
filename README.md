@@ -2,11 +2,8 @@
 A console application built in python that extracts patient records from a PDF, validates each field, and outputs both a CSV of valid records and an error report with statistics. Valid records are also added to a SQLite database
 
 ## Features
-- Extracts data tables from PDFs using pdfplumber
-- Validates fields using Validator and ValidationError
-- Converts each row into a PatientRecord object
 - Writes valid records to a CSV and uploads them to a SQLite database
-- Writes an error report complete with statistics
+- Writes an error report complete with statistics on which fields had errors and the types of errors
 - Gracefully handles any errors that occur while loading the PDF
 
 ## How It Works
