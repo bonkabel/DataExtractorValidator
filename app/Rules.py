@@ -5,14 +5,14 @@ class Rules:
     """
 
     # A required field is empty or not present
-    MISSING = "missing"
+    MISSING = "missing field"
 
     # A field has a value but it is not logically valid
     # E.g. failed luhn check, invalid date, bad characters, etc.
-    INVALID = "invalid"
+    INVALID = "invalid value"
 
     # A value is outside the allowed range
-    RANGE = "range"
+    RANGE = "value outside range"
 
     # The value exists but it is of the wrong type
     # E.g. String instead of int
