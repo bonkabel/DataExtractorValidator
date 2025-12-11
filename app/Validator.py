@@ -1,5 +1,9 @@
 from datetime import datetime, timedelta
 
+from app.Fields import Fields
+from app.Rules import Rules
+from app.ValidationError import ValidationError
+
 
 class Validator:
     """
@@ -24,7 +28,6 @@ class Validator:
 
         return (len(errors) == 0), errors
 
-
     def validateHealthCardNumber(self, healthCardNumber):
         """
         Validate health card number and return error message
@@ -42,26 +45,26 @@ class Validator:
 
         :return: List[str] List of errors. Empty list if valid
         """
-
         errors = []
 
         # Check if the health card number is empty
-        if healthCardNumber is None:
-            errors.append("The health card number is missing")
+        if not healthCardNumber :
+            errors.append(ValidationError(Fields.HEALTH_CARD_NUMBER, Rules.MISSING, "The health card number is missing"))
+            return errors
+
+        # Check if the health card number is just digits
+        if not healthCardNumber.isdigit():
+            errors.append(ValidationError(Fields.HEALTH_CARD_NUMBER, Rules.INVALID,"The health card number contains non digit characters"))
             return errors
 
         # Check if the health card number is 10 characters
         if len(healthCardNumber) != 10:
-            errors.append("The health card number is not 10 characters")
+            errors.append(ValidationError(Fields.HEALTH_CARD_NUMBER, Rules.INVALID, "The health card number is not 10 characters"))
 
-        # Check if the health card number is just digits
-        if not healthCardNumber.isdigit():
-            errors.append("The health card number contains non digit characters")
-            return errors
 
         # Check if the health card number passes the luhn check
         if not self.luhnCheck(healthCardNumber):
-            errors.append("The health card number failed MOD 10 validation")
+            errors.append(ValidationError(Fields.HEALTH_CARD_NUMBER, Rules.INVALID, "The health card number failed mod 10 validation. Please confirm it is correct"))
 
         return errors
 
@@ -112,16 +115,16 @@ class Validator:
 
         # Checks if the version code is missing
         if not versionCode:
-            errors.append("The health card version code is missing")
+            errors.append(ValidationError(Fields.VERSION_CODE, Rules.MISSING, "The health card version code is missing"))
             return errors
 
         # Version code needs to be 2 characters long
         if len(versionCode) != 2:
-            errors.append("The health card version code must be exactly 2 characters")
+            errors.append(ValidationError(Fields.VERSION_CODE, Rules.INVALID, "The health card version code must be exactly 2 characters"))
 
         # The version code needs to be alphabetical, uppercase characters
         if not versionCode.isalpha() or not versionCode.isupper():
-            errors.append("The health card version code must be uppercase letters")
+            errors.append(ValidationError(Fields.VERSION_CODE, Rules.INVALID, "The health card version code must be uppercase letters"))
 
         return errors
 
@@ -141,27 +144,27 @@ class Validator:
         errors = []
 
         # Checks if the dateOfBirth is missing
-        if dateOfBirth is None:
-            errors.append("The date of birth is missing")
+        if not dateOfBirth:
+            errors.append(ValidationError(Fields.DATE_OF_BIRTH, Rules.MISSING, "The date of birth is missing"))
             return errors
 
         # Attempts to parse the dateOfBirth
         try:
             parsedDateOfBirth = datetime.strptime(str(dateOfBirth), '%Y-%m-%d').date()
         except ValueError:
-            errors.append("Date of birth must be in the form YYYY-MM-DD")
+            errors.append(ValidationError(Fields.DATE_OF_BIRTH, Rules.INVALID, "Date of birth must be in the form YYYY-MM-DD"))
             return errors
 
+        # Get the date today and calculate the age of the patient
         today = datetime.today().date()
-
         age = self.calculateAge(today, parsedDateOfBirth)
 
         if age < 0:
-            errors.append("The patient must be at least 0 years old")
+            errors.append(ValidationError(Fields.DATE_OF_BIRTH, Rules.RANGE, "The patient must be at least 0 years old"))
             return errors
 
         if age >= 150:
-            errors.append("The patient must be less than 150 years old")
+            errors.append(ValidationError(Fields.DATE_OF_BIRTH, Rules.RANGE, "The patient must be less than 150 years old"))
 
 
         return errors
@@ -200,28 +203,28 @@ class Validator:
         errors = []
 
         # Checks if serviceDate is missing
-        if serviceDate is None:
-            errors.append("The date of service is missing")
+        if not serviceDate:
+            errors.append(ValidationError(Fields.SERVICE_DATE, Rules.MISSING, "The date of service is missing"))
             return errors
 
         # Attempts to parse the service date
         try:
             parsedServiceDate = datetime.strptime(str(serviceDate), '%Y-%m-%d').date()
         except ValueError:
-            errors.append("Date of service must be in the form YYYY-MM-DD")
+            errors.append(ValidationError(Fields.SERVICE_DATE, Rules.INVALID, "The date of service must be in the form YYYY-MM-DD"))
             return errors
 
         today = datetime.today().date()
 
         # Service date can't be in the future
         if parsedServiceDate > today:
-            errors.append("The date of service cannot be in the future")
-            return errors
+            errors.append(ValidationError(Fields.SERVICE_DATE, Rules.RANGE, "The date of service cannot be in the future"))
+
 
         # Service date can't be more than 6 months ago
         if parsedServiceDate < (today - timedelta(days=183)):
-            errors.append("The date of service cannot be more than 6 months in the past")
-            return errors
+            errors.append(ValidationError(Fields.SERVICE_DATE, Rules.RANGE, "The date of service cannot be more than 6 months in the past"))
+
 
         # Attempts to parse the date of birth
         try:
@@ -232,6 +235,6 @@ class Validator:
 
         # Service date can't be before the date of birth
         if (parsedDateOfBirth is not None) and (parsedServiceDate < parsedDateOfBirth):
-            errors.append("The date of service cannot be before the date of birth")
+            errors.append(ValidationError(Fields.SERVICE_DATE, Rules.RANGE, "The date of service cannot be before the date of birth"))
 
         return errors
