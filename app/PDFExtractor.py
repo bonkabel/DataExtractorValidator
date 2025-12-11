@@ -25,13 +25,12 @@ class PDFExtractor:
         Extracts patient records from a PDF file
 
         Notes:
-            Assumes the first row of the PDF is the column headings
+            Assumes the first row of a table on the page is always the headers
             Assumes the tables columns are in the order patient id, health card numbers, version code, date of birth, service date
 
         :return: A list of PatientRecord objects. Each row of the PDF table after the header is converted into a PatientRecord object
         """
 
-        # return a list of patient records
         records = []
         foundTable = False
 
