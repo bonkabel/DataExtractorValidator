@@ -1,62 +1,47 @@
-ERROR REPORT
-Generated: 2025-12-09 17:15:05.027610
-Total Records Processed: 20
-Valid Records: 5
-Invalid Records: 15
-INVALID RECORDS:
+Summary
+============
+Generated: 2025-12-10 20:25:25.518523
+Total Records Processed: 7
+Valid Records: 0
+Invalid Records: 7
+Percent of records valid: 0.0%
+
+Validation Issues
+=================
+value outside range: 8
+invalid value: 4
+
+What fields had the issues
+==========================
+serviceDate: 8
+healthCardNumber: 3
+versionCode: 1
+
+Invalid Records
+===============
+Patient ID: P001
+	- The date of service cannot be more than 6 months in the past
+
+Patient ID: P002
+	- The date of service cannot be more than 6 months in the past
 
 Patient ID: P003
-	- The health card number failed MOD 10 validation
+	- The health card number is not 10 characters
+	- The health card number failed mod 10 validation. Please confirm it is correct
+	- The date of service cannot be more than 6 months in the past
 
 Patient ID: P004
 	- The date of service cannot be in the future
 
 Patient ID: P005
-	- The health card number failed MOD 10 validation
+	- The health card version code must be uppercase letters
+	- The date of service cannot be more than 6 months in the past
 
 Patient ID: P006
+	- The health card number failed mod 10 validation. Please confirm it is correct
 	- The date of service cannot be more than 6 months in the past
 
 Patient ID: P007
-	- The health card number is not 10 characters
-	- The health card number failed MOD 10 validation
-	- The health card version code must be uppercase letters
-
-Patient ID: P008
-	- The health card number contains non digit characters
-	- The health card version code must be exactly 2 characters
-	- The date of service cannot be in the future
-
-Patient ID: P010
-	- The health card number is not 10 characters
-	- The health card version code must be exactly 2 characters
-
-Patient ID: P011
-	- The health card number is not 10 characters
-	- The health card number failed MOD 10 validation
-
-Patient ID: P012
-	- The health card version code is missing
 	- The date of service cannot be more than 6 months in the past
-
-Patient ID: P013
-	- The health card number failed MOD 10 validation
-	- The date of service cannot be more than 6 months in the past
-
-Patient ID: P014
-	- The patient must be at least 0 years old
-	- The date of service cannot be more than 6 months in the past
-
-Patient ID: P015
-	- The date of service cannot be in the future
-
-Patient ID: P016
-	- The health card number failed MOD 10 validation
-	- The date of service cannot be more than 6 months in the past
-
-Patient ID: P017
-	- The health card number is not 10 characters
-
-Patient ID: P019
-	- The date of service cannot be more than 6 months in the past
+	- The date of service cannot be before the date of birth
 
