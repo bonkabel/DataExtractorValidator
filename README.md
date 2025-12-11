@@ -7,7 +7,7 @@ A console application built in python that extracts patient records from a PDF, 
 - Converts each row into a PatientRecord object
 - Writes valid records to a CSV
 - Writes an error report complete with statistics
-- Gracefully handles errors with loading the PDF
+- Gracefully handles any errors that occur while loading the PDF
 
 ## How It Works
 1. PDFExtractor reads the PDF and extracts the data from the tables
