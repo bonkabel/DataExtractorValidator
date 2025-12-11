@@ -25,3 +25,5 @@ A console application built in python that extracts patient records from a PDF, 
 - Assumes the table columns follow the expected order of [Patient ID, Health Card Number, Version Code, Date of Birth, Service Date]
 - Doesn't validate patient id
 
+## Reasoning
+I used Python for this project for simplicity. For a larger project handling real data I would lean towards using C#. I chose to use pdfplumber because it works very well for extracting table data.
