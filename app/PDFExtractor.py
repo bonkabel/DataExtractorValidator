@@ -2,6 +2,7 @@ import pdfplumber
 from pdfminer.pdfparser import PDFSyntaxError
 from pdfplumber.utils.exceptions import PdfminerException
 
+from app.Fields import Fields
 from app.PatientRecord import PatientRecord
 
 class PDFExtractor:
@@ -18,14 +19,16 @@ class PDFExtractor:
 
         :param filePath: Path to the PDF file that contains patient data
         """
+
         self.filePath = filePath
+
 
     def extractRecords(self):
         """
         Extracts patient records from a PDF file
 
         Notes:
-            Assumes the first row of a table on the page is always the headers
+            Assumes the header can only be in the first row of a table
             Assumes the tables columns are in the order patient id, health card numbers, version code, date of birth, service date
 
         :return: A list of PatientRecord objects. Each row of the PDF table after the header is converted into a PatientRecord object
@@ -48,7 +51,9 @@ class PDFExtractor:
                     # Go through the rows of the table
                     # Assuming the first row is the column names
 
-                    for row in table[1:]:
+                    table = self.removeHeader(table, Fields.ALL_FIELDS)
+
+                    for row in table:
                         if row is None or len(row) != 5:
                             raise Exception(
                                 f"Incomplete record found in '{self.filePath}' on page {page.page_number}\n"
@@ -85,3 +90,23 @@ class PDFExtractor:
 
 
         return records
+
+    def removeHeader(self, table, headerData):
+        """
+        Removes a header from a table if the header contains headerData. Assumes the first row of a table is the header.
+
+        :param table: A table to remove the header from
+        :param headerData: The header data to look for
+        :return: A table with the header removed. If no header present, returns table
+        """
+        firstRow = table[0]
+        normalizedRow = [''.join(char.lower() for char in cell if char.isalpha()) for cell in firstRow]
+
+        if headerData.issubset(normalizedRow):
+            table.pop(0)
+            return table
+        else:
+            return table
+
+
+

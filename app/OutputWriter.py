@@ -1,6 +1,9 @@
 import csv
 from datetime import datetime
 
+from app.Fields import Fields
+
+
 class OutputWriter:
     """
     Responsible for producing the output files.
@@ -81,7 +84,7 @@ class OutputWriter:
             f.write(f"What fields had the issues\n")
             f.write(f"==========================\n")
             for field, count in fieldStats.items():
-                f.write(f"{field}: {count}\n")
+                f.write(f"{Fields.getDisplayName(field)}: {count}\n")
             f.write("\n")
 
             f.write("Invalid Records\n")
