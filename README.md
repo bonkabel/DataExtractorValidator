@@ -7,7 +7,7 @@ A console application built in python that extracts patient records from a PDF, 
 - Gracefully handles any errors that occur while loading the PDF
 
 ## How It Works
-1. RecordProcessor coordinates the extracting and validation of the patient records
+1. RecordProcessor coordinates the extraction and validation of the patient records
 2. PDFExtractor reads the PDF and extracts the data from the tables
 3. Validator validates each field returning the errors found. ValidationError is used for storing the error data
 4. OutputWriter handles creating the CSV of valid records, and creating the error report with statistics
