@@ -15,7 +15,7 @@ A console application built in python that extracts patient records from a PDF, 
 5. SQLiteWriter writes the valid records to the database
 
 ## Web App
-- https://dataextractorvalidator.streamlit.app/
+https://dataextractorvalidator.streamlit.app/
 - Upload a patient data file
 - You can view the patient data and statistics
 - You can download the valid records, error report, and statistics files
