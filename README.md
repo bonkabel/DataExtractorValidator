@@ -7,7 +7,7 @@ A console application built in python that extracts patient records from a PDF, 
 - Gracefully handles any errors that occur while loading the PDF
 
 ## How It Works
-1. RecordProcessor coordinates the extracting and validation of the patient records
+1. RecordProcessor coordinates the extraction and validation of the patient records
 2. PDFExtractor reads the PDF and extracts the data from the tables
 3. Validator validates each field returning the errors found. ValidationError is used for storing the error data
 4. OutputWriter handles creating the CSV of valid records, and creating the error report with statistics
@@ -28,3 +28,15 @@ A console application built in python that extracts patient records from a PDF, 
 
 ## Reasoning
 I used Python for this project for simplicity. For a larger project handling real data I would lean towards using C#. I chose to use pdfplumber because it works very well for extracting table data.
+
+## Potential Expansions
+- User friendly UI
+- Ability to manually fix records with errors
+- Is patient id required? It seems unnecessary due to health card numbers being unique.
+  - Remove?
+  - Replace with health card number?
+- Normalize and sanitize extracted data
+  - Would have to identify what the system is allowed to auto correct first and what would require human confirmation
+  - SHOULD the system be allowed to correct health card numbers, dates, etc. and to what extent?
+- Account for different column orders?
+
