@@ -1,6 +1,12 @@
 # Patient Record Validator
 A console application built in python that extracts patient records from a PDF, validates each field, and outputs both a CSV of valid records and an error report with statistics. Valid records are also added to a SQLite database
 
+## Web App
+https://dataextractorvalidator.streamlit.app/
+- Upload a patient data file
+- You can view the patient data and statistics
+- You can download the valid records, error report, and statistics files
+
 ## Features
 - Writes valid records to a CSV and uploads them to a SQLite database
 - Writes an error report complete with statistics on which fields had errors and the types of errors
@@ -13,12 +19,6 @@ A console application built in python that extracts patient records from a PDF, 
 3. Validator validates each field returning the errors found. ValidationError is used for storing the error data
 4. OutputWriter handles creating the CSV of valid records, and creating the error report with statistics
 5. SQLiteWriter writes the valid records to the database
-
-## Web App
-https://dataextractorvalidator.streamlit.app/
-- Upload a patient data file
-- You can view the patient data and statistics
-- You can download the valid records, error report, and statistics files
 
 ## How to run it yourself
 - Install pdfplumber `pip install pdfplumber`
