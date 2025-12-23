@@ -1,6 +1,6 @@
-DateTime~=6.0
-pdfplumber~=0.11.8
-pdfminer.six~=20251107
-streamlit~=1.52.2
-pandas~=2.3.3
-plotly~=6.5.0
+DateTime==6.0
+pdfplumber==0.11.8
+pdfminer.six==20251107
+streamlit==1.52.2
+pandas==2.3.3
+plotly==6.5.0
