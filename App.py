@@ -33,7 +33,7 @@ class App:
         self.processor = RecordProcessor(self.extractor, self.validator)
 
         # Writes CSV and text report
-        self.outputWriter = OutputWriter()
+        self.outputWriter = None
 
         # The target directory for the output files
         self.outDirectory = outputDirectory
@@ -53,10 +53,13 @@ class App:
         # Paths for the output files
         validPath = f"{self.outDirectory}/valid_records.csv"
         invalidPath = f"{self.outDirectory}/error_report.txt"
+        jsonPath = f"{self.outDirectory}/statistics.json"
 
-        # Writing the CSV and error report
-        self.outputWriter.writeValidCSV(self.processor.validRecords, validPath)
-        self.outputWriter.writeErrorReport(self.processor.invalidRecords, invalidPath, len(self.processor.validRecords))
+        # Writing the CSV, error report, and statistics
+        self.outputWriter = OutputWriter(self.processor.validRecords, self.processor.invalidRecords)
+        self.outputWriter.writeValidCSV(validPath)
+        self.outputWriter.writeErrorReport(invalidPath)
+        self.outputWriter.writeJSON(jsonPath)
 
         # Write valid records to SQLite
         self.dbWriter.insertRecords(self.processor.validRecords)

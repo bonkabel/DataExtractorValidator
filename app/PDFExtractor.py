@@ -51,7 +51,7 @@ class PDFExtractor:
                     # Go through the rows of the table
                     # Assuming the first row is the column names
 
-                    table = self.removeHeader(table, Fields.ALL_FIELDS)
+                    table = self.removeHeader(table, Fields.getAllFields())
 
                     for row in table:
                         if row is None or len(row) != 5:
